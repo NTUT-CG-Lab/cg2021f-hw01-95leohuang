@@ -10,10 +10,10 @@
 
 <body>
 	<div style="position:absolute;z-index:999" id="checklist"></div>
-	<div id="info">
+	<!-- <div id="info">
 		<a href="https://threejs.org" target="_blank" rel="noopener">three.js</a> - TTFLoader using opentype by gero3
 		<br />type to enter new text, drag to spin the text
-	</div>
+	</div> -->
 
 	<script src="scoreoutputer.min.js"></script>
 	<script src="./opentype.min.js"></script>
@@ -55,7 +55,7 @@
 				mesh.rotation.z = dolphinsRotation.z + rotationOffset;
 			}
 
-		}, 50);
+		}, 70);
 
 
 		function loadPLY() {
@@ -108,8 +108,8 @@
 			so.addChild("將地支以圓圈排列", 2, true);
 			so.addChild("滑鼠點擊 12 地支分別跳轉網頁", 1, false);
 			so.addChild("顯示 \"高等計算機圖形作業\"", 1, true);
-			so.addChild("時鐘效果", 1, false);
-			so.addChild("任何 ply 格式模型", 1, false);
+			so.addChild("時鐘效果", 1, true);
+			so.addChild("任何 ply 格式模型", 1, true);
 
 			//產生自評表，參數如下所示
 			so.renderModal(
@@ -147,6 +147,7 @@
 
 		let text = '子';
 		let textArr = ['子', '丑', '寅', '卯', '辰', '巳', '午', '未', '申', '酉', '戌', '亥', '高等計算機圖學作業'];
+
 		const height = 10,
 			size = 20,
 			hover = 30,
@@ -183,6 +184,9 @@
 		let currentColor = 0;
 		let colorList = ["0xff0000", "0xff1b00", "0xff2900", "0xff3400", "0xff3e00", "0xff4600", "0xff4e00", "0xff5500", "0xff5c00", "0xff6300", "0xff6900", "0xff6f00", "0xff7500", "0xff7b00", "0xff8100", "0xff8600", "0xff8c00", "0xff9200", "0xff9700", "0xff9c00", "0xffa200", "0xffa700", "0xffac00", "0xffb100", "0xffb600", "0xffbb00", "0xffc000", "0xffc500", "0xffca00", "0xffcf00", "0xffd400", "0xffd900", "0xffde00", "0xffe300", "0xffe700", "0xffec00", "0xfff100", "0xfff600", "0xfffa00", "0xffff00", "0xfcff00", "0xf8ff00", "0xf4ff00", "0xf1ff00", "0xedff00", "0xe9ff00", "0xe6ff00", "0xe2ff00", "0xdeff00", "0xdaff00", "0xd6ff00", "0xd2ff00", "0xceff00", "0xcaff00", "0xc5ff00", "0xc1ff00", "0xbdff00", "0xb8ff00", "0xb4ff00", "0xafff00", "0xaaff00", "0xa5ff00", "0xa0ff00", "0x9bff00", "0x96ff00", "0x90ff00", "0x8aff00", "0x84ff00", "0x7eff00", "0x78ff00", "0x71ff00", "0x6aff00", "0x62ff00", "0x59ff00", "0x50ff00", "0x45ff00", "0x38ff00", "0x26ff00", "0x00ff00", "0x00fd28", "0x00fa3c", "0x00f84d", "0x00f55d", "0x00f26b", "0x00ef79", "0x00eb87", "0x00e895", "0x00e4a3", "0x00e1b0", "0x00ddbe", "0x00d9cb", "0x00d5d8", "0x00d1e5", "0x00cdf2", "0x00c9fe", "0x00c5ff", "0x00c1ff", "0x00bcff", "0x00b8ff", "0x00b3ff", "0x00afff", "0x00aaff", "0x00a5ff", "0x00a0ff", "0x009bff", "0x0095ff", "0x008fff", "0x0089ff", "0x0082ff", "0x007bff", "0x0073ff", "0x006aff", "0x0061ff", "0x0056ff", "0x004aff", "0x003cff", "0x0029ff", "0x0037ff", "0x0043ff", "0x004cff", "0x0055ff", "0x005dff", "0x0065ff", "0x006cff", "0x0072ff", "0x0079ff", "0x007fff", "0x0085ff", "0x008aff", "0x0090ff", "0x0095ff", "0x009aff", "0x009fff", "0x00a4ff", "0x00a9ff", "0x00aeff", "0x00b2ff", "0x00b7ff", "0x00bbff", "0x00c0ff", "0x00c4ff", "0x00c9ff", "0x00cdff", "0x00d1ff", "0x00d5ff", "0x00d9ff", "0x00ddff", "0x00e1ff", "0x00e5ff", "0x00e9ff", "0x00edff", "0x00f1ff", "0x00f4ff", "0x00f8ff", "0x00fbff", "0x00ffff", "0x00fcff", "0x00f9ff", "0x00f5ff", "0x00f2ff", "0x00efff", "0x00ebff", "0x00e8ff", "0x00e4ff", "0x00e0ff", "0x00ddff", "0x00d9ff", "0x00d5ff", "0x00d1ff", "0x00cdff", "0x00c9ff", "0x00c5ff", "0x00c0ff", "0x00bcff", "0x00b7ff", "0x00b3ff", "0x00aeff", "0x00a9ff", "0x00a4ff", "0x009fff", "0x009aff", "0x0094ff", "0x008eff", "0x0088ff", "0x0082ff", "0x007bff", "0x0074ff", "0x006cff", "0x0064ff", "0x005bff", "0x0051ff", "0x3d46ff", "0x5938ff", "0x6d26ff", "0x7e00ff", "0x8d00f9", "0x9a00f4", "0xa600ee", "0xb000e8", "0xba00e1", "0xc300db", "0xcb00d5", "0xd200ce", "0xd900c8", "0xe000c1", "0xe500ba", "0xeb00b4", "0xf000ad", "0xf400a6", "0xf8009f", "0xfc0099", "0xff0092", "0xff008c", "0xff0085", "0xff007f", "0xff0078", "0xff0072", "0xff006c", "0xff0065", "0xff005f", "0xff0059", "0xff0053", "0xff004d", "0xff0048", "0xff0042", "0xff003c", "0xff0036", "0xff0031", "0xff002b", "0xff0024", "0xff001e", "0xff0016", "0xff000c", "0xff0000"];
 
+		let hours, minutes, seconds;
+		let secondArea = [14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0, 59, 58, 57, 56, 55, 54, 53, 52, 51, 50, 49, 48, 47, 46, 45, 44, 43, 42, 41, 40, 39, 38, 37, 36, 35, 34, 33, 32, 31, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15]
+
 		init();
 		animate();
 
@@ -215,9 +219,6 @@
 			pointLight.color.setHSL(Math.random(), 1, 0.5);
 			scene.add(pointLight);
 
-
-			// Lights
-
 			scene.add(new THREE.HemisphereLight(0x443333, 0x111122));
 
 			addShadowedLight(1, 1, 1, 0xffffff, 1.35);
@@ -230,6 +231,8 @@
 
 			scene.add(group);
 
+			// FONT
+
 			const loader = new THREE.TTFLoader();
 
 			loader.load(fontttf, function (json) {
@@ -238,13 +241,17 @@
 				createText();
 			});
 
+			// BG
+
 			const plane = new THREE.Mesh(
 				new THREE.PlaneGeometry(10000, 10000),
-				new THREE.MeshBasicMaterial({ color: 0xffffff, opacity: 0.5, transparent: true })
+				new THREE.MeshBasicMaterial({ color: 0xffff00, opacity: 0.5, transparent: true })
 			);
 			plane.position.y = 100;
 			plane.rotation.x = - Math.PI / 2;
 			scene.add(plane);
+
+			// GROUND
 
 			const ground = new THREE.Mesh(
 				new THREE.PlaneGeometry(500, 500),
@@ -257,6 +264,32 @@
 				ground.material.color.setHex(rainbow());
 			}, 50);
 			scene.add(ground);
+
+			//CLOCK PLATE
+			const circle = new THREE.Mesh(new THREE.CircleGeometry(120, 128), new THREE.MeshBasicMaterial({ color: 0x000000 }));
+			circle.position.y = 150;
+			group.add(circle);
+
+			setInterval(function () {
+				let step = 6.3 / 59;
+
+				group.remove(hours)
+				hours = new THREE.Mesh(new THREE.CircleGeometry(60, 128, step * secondArea[new Date().getHours() * 59 / 12] - 0.08, step), new THREE.MeshBasicMaterial({ color: 0xff0000 }));
+				hours.position.y = 150;
+				group.add(hours);
+
+				group.remove(minutes)
+				minutes = new THREE.Mesh(new THREE.CircleGeometry(100, 128, step * secondArea[new Date().getMinutes()], step), new THREE.MeshBasicMaterial({ color: 0x009aff }));
+				minutes.position.y = 150;
+				group.add(minutes);
+
+				group.remove(seconds)
+				seconds = new THREE.Mesh(new THREE.CircleGeometry(120, 128, step * secondArea[new Date().getSeconds()], step), new THREE.MeshBasicMaterial({ color: 0xffffff }));
+				seconds.position.y = 150;
+				group.add(seconds);
+
+
+			}, 1000);
 
 			// RENDERER
 
@@ -435,6 +468,11 @@
 			}
 			return colorList[currentColor];
 		}
+
+		// function time() {
+		// 	console.error(new Date().getHours())
+		// 	console.error(new Date().getMinutes())
+		// }
 	</script>
 
 </body>
