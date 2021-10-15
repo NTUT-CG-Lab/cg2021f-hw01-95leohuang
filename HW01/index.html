@@ -106,7 +106,7 @@
 			so.addChild("創建場景", 2, true);
 			so.addChild("讀取字形檔", 2, true);
 			so.addChild("將地支以圓圈排列", 2, true);
-			so.addChild("滑鼠點擊 12 地支分別跳轉網頁", 1, false);
+			so.addChild("滑鼠點擊 12 地支分別跳轉網頁", 1, true);
 			so.addChild("顯示 \"高等計算機圖形作業\"", 1, true);
 			so.addChild("時鐘效果", 1, true);
 			so.addChild("任何 ply 格式模型", 1, true);
@@ -142,11 +142,14 @@
 
 		let container;
 		let camera, cameraTarget, scene, renderer;
-		let group, textMesh1, textGeo, material;
+		let group, textMesh1, textGeo, textGeos = [], material;
 		let firstLetter = true;
 
 		let text = '子';
 		let textArr = ['子', '丑', '寅', '卯', '辰', '巳', '午', '未', '申', '酉', '戌', '亥', '高等計算機圖學作業'];
+
+		const raycaster = new THREE.Raycaster();
+		const mouse = new THREE.Vector2();
 
 		const height = 10,
 			size = 20,
@@ -287,8 +290,6 @@
 				seconds = new THREE.Mesh(new THREE.CircleGeometry(120, 128, step * secondArea[new Date().getSeconds()], step), new THREE.MeshBasicMaterial({ color: 0xffffff }));
 				seconds.position.y = 150;
 				group.add(seconds);
-
-
 			}, 1000);
 
 			// RENDERER
@@ -386,8 +387,8 @@
 
 				const centerOffset = - 0.5 * (textGeo.boundingBox.max.x - textGeo.boundingBox.min.x);
 
-				textMesh1 = new THREE.Mesh(textGeo, material);
-
+				textMesh1 = new THREE.Mesh(textGeo, new THREE.MeshPhongMaterial({ color: 0xffffff, flatShading: true }));
+				textMesh1.material.color.setHex(colorList[Math.floor(i * colorList.length / textArr.length + 1)]);
 				textMesh1.position.x = centerOffset + textOffset[i].x;
 				textMesh1.position.y = hover + textOffset[i].y + 100;
 				textMesh1.position.z = textOffset[i].z;
@@ -400,6 +401,8 @@
 				}
 				else {
 					group.add(textMesh1);
+					textMesh1.name = textArr[i];
+					textGeos.push(textMesh1);
 				}
 			}
 		}
@@ -417,6 +420,37 @@
 		function onPointerDown(event) {
 
 			if (event.isPrimary === false) return;
+
+
+			mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+			mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
+
+			raycaster.setFromCamera(mouse, camera);
+			const intersects = raycaster.intersectObjects(textGeos);
+
+			isClick = false;
+			if (intersects.length > 0) {
+				for (let i = 0; i < intersects.length; i++) {
+					for (let j = 0; j < 12; j++) {
+						if (intersects[i].object.name == textArr[j]) {
+							isClick = true;
+							intersects[i].object.material.color.setHex((colorList[Math.floor(Math.random() * colorList.length)]))
+
+							link = j + 1 < 10 ? '0' + (j + 1) : j + 1;
+							if (j != 0) {
+								alert('hw' + link + "尚未製作")
+							}
+							else {
+								window.open('https://ntut-cg-lab.github.io/cg2021f-hw' + link + '-95leohuang/', '109598402', config = 'height=800,width=800');
+							}
+							break;
+						}
+
+					}
+					if (isClick) break;
+				}
+			}
+
 
 			pointerXOnPointerDown = event.clientX - windowHalfX;
 			targetRotationOnPointerDown = targetRotation;
