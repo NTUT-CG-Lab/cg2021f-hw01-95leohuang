@@ -20,6 +20,77 @@
 	<script src="./three.min.js"></script>
 	<script src="./TTFLoader.js"></script>
 
+	<script type="module">
+		import { PLYLoader } from './PLYLoader.js';
+
+		let plyloader = new PLYLoader();
+		let modelArrys = ['dolphins', 'Lucy100k']
+		let mesh, model = 1, rotationOffset = 0;
+
+		let lucyRotation = { x: -Math.PI / 4 + 0.7, y: Math.PI / 2, z: 0 }
+		let dolphinsRotation = { x: - Math.PI / 2, y: 0, z: 0 }
+
+		loadPLY();
+
+		setInterval(function () {
+			rotationOffset += 0.1;
+			mesh.material.color.setHex(rainbow());
+
+			if (parseFloat(rotationOffset.toFixed(2)) % 4.5 == 0) {
+				scene.remove(mesh)
+				model++
+				plyloader = new PLYLoader()
+				loadPLY();
+				return;
+			}
+
+			if (model % 2 == 1) {
+				mesh.rotation.x = lucyRotation.x
+				mesh.rotation.y = lucyRotation.y + rotationOffset;
+				mesh.rotation.z = 0
+			}
+			else {
+				mesh.rotation.x = dolphinsRotation.x;
+				mesh.rotation.y = dolphinsRotation.y;
+				mesh.rotation.z = dolphinsRotation.z + rotationOffset;
+			}
+
+		}, 50);
+
+
+		function loadPLY() {
+			plyloader.load('./models/' + modelArrys[model % 2] + '.ply', function (geometry) {
+
+				geometry.computeVertexNormals();
+
+				const material = new THREE.MeshStandardMaterial({ flatShading: true });
+				mesh = new THREE.Mesh(geometry, material);
+
+				mesh.position.x = -150;
+				mesh.position.y = 200;
+				mesh.position.z = -200;
+
+				if (model % 2 == 1) {
+					mesh.rotation.x = lucyRotation.x;
+					mesh.rotation.y = lucyRotation.y + rotationOffset;
+					mesh.rotation.z = 0
+				}
+				else {
+					mesh.rotation.x = dolphinsRotation.x;
+					mesh.rotation.y = dolphinsRotation.y;
+					mesh.rotation.z = dolphinsRotation.z + rotationOffset;
+				}
+
+				mesh.scale.multiplyScalar((model % 2 == 1) ? 0.1 : 0.2);
+
+				mesh.castShadow = true;
+				mesh.receiveShadow = true;
+
+				scene.add(mesh);
+			});
+		}
+	</script>
+
 	<script>
 		var so = new ScoreOutputer("109598402的評分表");
 		so.installCSS(function () {
@@ -144,6 +215,14 @@
 			pointLight.color.setHSL(Math.random(), 1, 0.5);
 			scene.add(pointLight);
 
+
+			// Lights
+
+			scene.add(new THREE.HemisphereLight(0x443333, 0x111122));
+
+			addShadowedLight(1, 1, 1, 0xffffff, 1.35);
+			addShadowedLight(0.5, 1, - 1, 0xffaa00, 1);
+
 			material = new THREE.MeshPhongMaterial({ color: 0xffffff, flatShading: true });
 
 			group = new THREE.Group();
@@ -167,7 +246,7 @@
 			plane.rotation.x = - Math.PI / 2;
 			scene.add(plane);
 
-			ground = new THREE.Mesh(
+			const ground = new THREE.Mesh(
 				new THREE.PlaneGeometry(500, 500),
 				new THREE.MeshBasicMaterial({ side: THREE.DoubleSide })
 			);
@@ -197,6 +276,29 @@
 			window.addEventListener('resize', onWindowResize);
 		}
 
+		function addShadowedLight(x, y, z, color, intensity) {
+
+			const directionalLight = new THREE.DirectionalLight(color, intensity);
+			directionalLight.position.set(x, y, z);
+			scene.add(directionalLight);
+
+			directionalLight.castShadow = true;
+
+			const d = 1;
+			directionalLight.shadow.camera.left = - d;
+			directionalLight.shadow.camera.right = d;
+			directionalLight.shadow.camera.top = d;
+			directionalLight.shadow.camera.bottom = - d;
+
+			directionalLight.shadow.camera.near = 1;
+			directionalLight.shadow.camera.far = 4;
+
+			directionalLight.shadow.mapSize.width = 1024;
+			directionalLight.shadow.mapSize.height = 1024;
+
+			directionalLight.shadow.bias = - 0.001;
+
+		}
 		function onWindowResize() {
 			windowHalfX = window.innerWidth / 2;
 			camera.aspect = window.innerWidth / window.innerHeight;
