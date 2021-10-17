@@ -274,22 +274,22 @@
 			group.add(circle);
 
 			setInterval(function () {
-				let step = 6.3 / 59;
+				let step = 6.3 / 60;
 
-				group.remove(hours)
-				hours = new THREE.Mesh(new THREE.CircleGeometry(60, 128, step * secondArea[new Date().getHours() * 59 / 12] - 0.08, step), new THREE.MeshBasicMaterial({ color: 0xff0000 }));
-				hours.position.y = 150;
-				group.add(hours);
+				group.remove(seconds)
+				seconds = new THREE.Mesh(new THREE.CircleGeometry(120, 128, step * secondArea[new Date().getSeconds()], step), new THREE.MeshBasicMaterial({ color: 0xffffff }));
+				seconds.position.y = 150;
+				group.add(seconds);
 
 				group.remove(minutes)
 				minutes = new THREE.Mesh(new THREE.CircleGeometry(100, 128, step * secondArea[new Date().getMinutes()], step), new THREE.MeshBasicMaterial({ color: 0x009aff }));
 				minutes.position.y = 150;
 				group.add(minutes);
 
-				group.remove(seconds)
-				seconds = new THREE.Mesh(new THREE.CircleGeometry(120, 128, step * secondArea[new Date().getSeconds()], step), new THREE.MeshBasicMaterial({ color: 0xffffff }));
-				seconds.position.y = 150;
-				group.add(seconds);
+				group.remove(hours)
+				hours = new THREE.Mesh(new THREE.CircleGeometry(60, 128, step * secondArea[(new Date().getHours() % 12) * 5 + Math.floor(new Date().getMinutes() / 12)], step), new THREE.MeshBasicMaterial({ color: 0xff0000 }));
+				hours.position.y = 150;
+				group.add(hours);
 			}, 1000);
 
 			// RENDERER
